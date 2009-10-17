@@ -1,0 +1,12 @@
+Description of the problem:
+
+Normally the window should look like, what you see on sentry_good.png.
+But, when you swallow the elementary.Entry object the window collapse:
+sentry_broken.png
+
+
+
+
+
+
+
