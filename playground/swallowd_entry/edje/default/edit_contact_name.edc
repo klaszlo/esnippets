@@ -1,0 +1,290 @@
+// click on a contact->edit->click on the name->[edit contact name]
+// click to add new contact->next->[edit contact name]
+
+group { 
+    name: "CreateContact";
+    min: 480 590;
+    parts {
+        part {
+            name: "base";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 255;
+                rel1 { relative: 0.0 0.0; }   
+                rel2 { relative: 1.0 1.0; }
+            }
+        }
+        
+        part {
+            name: "back-button";
+            type: IMAGE;
+            mouse_events: 1;
+            description {
+                min: 159 69;
+                max: 159 69;
+                state: "default" 0.0;
+                rel1 {
+                    relative: 0.0 0.0;
+                    offset: 1 19;
+                    to: "base";
+                }
+                rel2 {
+                    relative: 0.0 0.0;
+                    offset: 160 88;
+                    to: "base";
+                }
+                image { normal: "back.png"; }
+                visible: 1;
+            }
+            description {
+                state: "clicked" 0.0;
+                inherit:"default" 0.0;
+                image.normal: "back_pressed.png";
+            }
+        }
+        
+        part {
+            name: "save-button";
+            type: IMAGE;
+            mouse_events: 1;
+            description {
+                state: "default" 0.0;                
+                min: 159 69;
+                max: 159 69;
+                rel1 {
+                    relative: 0.0 0.0;
+                    offset: 320 19;
+                    to: "base";
+                }
+                rel2 {
+                    relative: 0.0 0.0;
+                    offset: 479 88;
+                    to: "base";
+                }                
+                image { normal: "save.png"; }
+                visible: 1;
+            }
+            description {
+                state: "clicked" 0.0;
+                inherit:"default" 0.0;
+                image.normal: "save_pressed.png";
+            }
+        }
+        
+        part {
+            name: "labels";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 90 155;
+                rel1 { 
+                    to:"base";
+                    relative: 0.0 0.18;
+                    //offset: 0 100;
+                }
+                rel2 {
+                    to:"base";
+                    relative: 1.0 0.8;
+                }
+            }
+        }
+        
+        part {
+            name:"edit-label";
+            type:TEXT;
+            mouse_events:0;
+            description {
+                color: 0 255 0 255;
+                text {
+                    align: 0.1 0.35;
+                    size: 24;
+                    text: "edit";
+                    font: "Sans";
+                }
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "labels";
+                }
+                rel2 {
+                    relative: 1.0 0.2;
+                    to: "labels";
+                }
+            }
+        }
+        
+        part {
+            name:"name-label";
+            type:TEXT;
+            mouse_events:0;
+            description {
+                color: 255 255 255 255;
+                text {
+                    align: 0.25 0.35;
+                    size: 24;
+                    text: "name";
+                    font: "Sans";
+                }
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "labels";
+                }
+                rel2 {
+                    relative: 1.0 0.2;
+                    to: "labels";
+                }
+            }
+        }
+        
+        part {
+            name: "entry_bg";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                rel1 { 
+                    to: "base";
+                    relative: 0.0 0.41;
+                }
+                rel2 {
+                    to: "base";
+                    relative: 1.0 0.8;
+                }
+            }
+        }
+        
+        part {
+            name: "entry2";
+            type: SWALLOW;
+            description { 
+                state: "default" 0.0;
+                rel1 { 
+                    to: "entry_bg";
+                    relative: 0.0 0.0;
+                }
+                rel2 {
+                    to: "entry_bg";
+                    relative: 1.0 1.0;
+                }
+            }
+        }
+        
+        part {
+            name: "save-notice";
+            type: RECT;
+            mouse_events: 1;
+            description { 
+                state:   "default"  0.0;
+                visible:0;
+                color: 0 0 0 160;
+            }
+            description { 
+                state:   "save"  0.0;
+                rel1 { 
+                    to:"base";
+                    relative: 0.0 0.0;
+                }
+                rel2 {
+                    to:"base";
+                    relative: 1.0 1.0;
+                }
+                visible:1;
+                color: 0 0 0 160;
+            }
+        }
+        
+        part {
+            name: "save-notice-text";
+            type: TEXT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                visible:0;
+            }
+            description { 
+                state: "save" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.15 0.4;
+                    size: 32;
+                    text: "Saving";
+                    font: "Sans";
+                }
+                rel1 {
+                    relative: 0.7 0.51;
+                    to: "save-notice";
+                }
+                rel2 {
+                    relative: 1.0 0.7;
+                    to: "save-notice";
+                }
+            }
+        }
+        
+        part {
+            name: "layover";
+            type: RECT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                visible: 0;
+                color: 0 0 0 100;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "base";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "base";
+                }
+            }
+        }
+    }
+    
+    programs {  
+        program { 
+            name: "back-button-down";
+            signal: "mouse,down,1";
+            source: "back-button";
+            action: STATE_SET "clicked" 0.0;
+            target: "back-button";
+        }
+        program { 
+            name: "back-button-up";
+            signal: "mouse,up,1";
+            source: "back-button";
+            action: STATE_SET "default" 0.0;
+            target: "back-button";
+            after:"back-button-clicked";
+        }
+        program { 
+            name: "back-button-clicked";
+            signal: "mouse,clicked,1";
+            source: "back-button";
+            action: SIGNAL_EMIT "back" "main_command";
+        }
+        program { 
+            name: "save_clicked"; 
+            signal: "mouse,up,1";
+            source: "save-button";
+            script {
+                emit("save", "main_command")
+            }
+        }
+        program { 
+            name: "save_pressed";
+            signal: "mouse,down,1";
+            source: "save-button";
+            action: STATE_SET "clicked" 0.0; 
+            target: "save-button";
+        }
+        program { 
+            name: "show_save_notice";
+            signal: "save-notice";
+            source: "*";
+            action: STATE_SET "save" 0.0; 
+            target: "save-notice";
+            target: "save-notice-text"; 
+        }
+    }
+}
+

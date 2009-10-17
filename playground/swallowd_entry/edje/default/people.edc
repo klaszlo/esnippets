@@ -1,0 +1,14 @@
+// Main people .edc file
+
+collections {
+    images {
+        image: "back.png" COMP;
+        image: "back_pressed.png" COMP;
+        image: "save.png" COMP;
+        image: "save_pressed.png" COMP;
+    }
+    
+
+    #include "edit_contact_name.edc"
+}
+
