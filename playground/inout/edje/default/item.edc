@@ -1,0 +1,760 @@
+
+group { 
+    name: "item";
+    min: 420 79;
+    max: 420 79;
+    data {
+        item: "attribute1" "number";
+        item: "attribute2" "get_contact()";
+        item: "value" "None";
+        item: "signal" "unknown";
+    }
+    script {
+        public drag_value;
+        public mouse_x;
+        public edit_mode=0;
+        public right_slided=0;
+        public left_slided=0;
+        
+        public check_slider_action(val) {
+            new Float:dx;
+            new Float:dy;
+            new state_name[30];
+            new Float:dummy;
+            get_drag(PART:"invisible-slider", dx, dy);
+            get_state(PART:"item", state_name, 30, dummy);
+            if (!strcmp(state_name, "to-the-right")) {
+                set_state(PART:"item", "default", 0.0);
+                set_state(PART:"label", "default", 0.0);
+                set_state(PART:"subtext", "default", 0.0);
+            }
+            else if (!strcmp(state_name, "default")) {
+                if ( dx > 200.0) {
+                    set_state(PART:"item", "to-the-right", 0.0);
+                    set_state(PART:"label", "fade-out", 0.0);
+                    set_state(PART:"subtext", "fade-out", 0.0);
+                } else {
+                    emit("new_call", "label");
+                }
+            }
+            else if (!strcmp(state_name, "edit_mode_deselected")) {
+                set_text(PART:"delete-flag","1");
+                run_program(PROGRAM:"to-edit-mode");
+            }
+            set_drag(PART:"invisible-slider", 0.0, 0.0);
+        }
+    }
+   
+    parts {
+        part {
+            name:"main_base";
+            type:RECT;
+            description { 
+                state: "default" 0.0;
+                color:0 0 0 255;
+                rel1 { relative: 0.0 0.0; }
+                rel2 { relative: 1.0 1.0; }
+            }
+        }
+        part {
+            name: "delete-flag";
+            type: TEXT;
+            mouse_events:0;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 0;
+                text {
+                    align: 0.5 0.5;
+                    font: "Sans";
+                    size: 25;
+                    text: "1";
+                }
+                rel1 { relative: 0.0 0.0; }
+                rel2 { relative: 1.0 1.0; } 
+            }
+        }
+      
+        part {
+            name: "item_bg";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 255;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "main_base";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "main_base";
+                } 
+            }
+        }
+        
+        part {
+            name: "msg_button";
+            type: RECT;
+            mouse_events:1;
+            description { 
+                state: "default" 0.0;
+                color:0 0 0 255;
+                //min: 88 35;
+                //max: 88 35;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "main_base";
+                }
+                rel2 {
+                    relative: 0.25 1.0;
+                    to: "main_base";
+                } 
+            }
+            description {
+                state: "edit_mode" 0.0;
+                visible:0;
+            }
+        }
+
+        part {
+            name: "msg_button_label";
+            type: TEXT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.5 0.5;
+                    font: "Sans";
+                    size: 35;
+                    text: "Msg";
+                }
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "msg_button";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "msg_button";
+                } 
+            }
+            description {
+                state: "edit_mode" 0.0;
+                visible:0;
+            }
+        }
+      
+        part {
+            name: "call_button";
+            type: RECT;
+            mouse_events:1;
+            description { 
+                state: "default" 0.0;
+                color:0 0 0 255;
+                //min: 88 35;
+                //max: 88 35;
+                rel1 {
+                    relative: 0.75 0.0;
+                    to: "main_base";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "main_base";
+                } 
+            }
+            description {
+                state: "edit_mode" 0.0;
+                visible: 0;
+            }
+        }
+      
+        part {
+            name: "call_button_label";
+            type: TEXT;
+            mouse_events:0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.5 0.5;
+                    font: "Sans";
+                    size: 35;
+                    text: "Call";
+                }
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "call_button";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "call_button";
+                } 
+            }
+            description {
+                state: "edit_mode" 0.0;
+                visible:0;
+            }
+        }
+
+        part {
+            name: "delete_button";
+            type: IMAGE;
+            description { 
+                state: "default" 0.0;
+                min: 64 64;
+                max: 64 64;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "item_bg";
+                }
+                rel2 {
+                    relative: 0.25 1.0;
+                    to: "item_bg";
+                } 
+                image { normal: "delete.png"; }
+                visible: 0;
+            }
+            description { 
+                state: "edit_mode" 0.0;
+                inherit: "default" 0.0;
+                visible: 1;
+            }
+            description { 
+                state: "edit_mode_deselected" 0.0;
+                inherit: "default" 0.0;
+            }
+        }
+        
+        part {
+            name: "item";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 100 0 0 255;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "item_bg";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "item_bg";
+                } 
+            }
+            description {
+                state: "to-the-right" 0.0;
+                inherit: "default" 0.0;
+                rel1 {
+                    relative: 0.25 0.0;
+                    to: "item_bg";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    offset: 200 0;
+                    to: "item_bg";
+                }
+            }
+            description {
+                state: "to-the-left" 0.0;
+                inherit: "default" 0.0;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "item_bg";
+                }
+                rel2 {
+                    relative: 0.75 1.0;
+                    //offset: 200 0;
+                    to: "item_bg";
+                }
+            }
+            description {
+                state: "edit_mode" 0.0;
+                inherit: "to-the-right" 0.0;
+            }
+            description {
+                state: "edit_mode_deselected" 0.0;
+                inherit: "to-the-right" 0.0;
+            }
+        }
+        
+        part {
+            name: "label-bg";
+            mouse_events: 1;
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 255;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "item";
+                }
+                rel2 {
+                    // default is "saved" state for the phone number.
+                    relative: 1.0 1.0;
+                    to: "item";
+                }
+            }
+            description { 
+                state: "unsaved" 0.0;
+                inherit: "default" 0.0;
+                rel2.relative: 0.8 1.0;
+            }
+            description{
+                state: "highlighted" 0.0;
+                inherit: "default" 0.0;
+                color: 255 255 255 255;
+            }
+        }
+        
+        part {
+            name:  "invisible-slider";
+            type: RECT;
+            ignore_flags: ON_HOLD;
+            dragable {
+                x: 1 1 0;
+                y: 0 0 0;
+                confine:"item";
+            }
+            description { 
+                state: "default" 0.0;
+                color:0 0 0 255;
+                min: 470 96; //workaround of bug #36: 
+                //http://trac.enlightenment.org/e/ticket/36
+                // fixed: 1 1;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "item";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "item";
+                } 
+            }
+            description {
+                state: "highlighted" 0.0;
+                inherit: "default" 0.0;
+                color: 255 255 255 255;
+            }
+        }
+            
+        part {
+            name: "label";
+            mouse_events:0;
+            type: TEXT;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.0 0.05;
+                    size: 40;
+                    text: "Testtos";
+                    font: "Sans";
+                }
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "item";
+                }
+                rel2 {
+                    relative: 1.0 0.66;
+                    to: "item";
+                }
+            }
+            description { 
+                state: "to-the-right" 0.0;
+                inherit: "default" 0.0;
+                rel1.to: "item";
+                rel2.to: "item";
+                color: 220 220 220 220;
+            }
+            description { 
+                state: "to-the-left" 0.0;
+                inherit: "default" 0.0;
+                rel1.to: "item";
+                rel2.to: "item";
+                color: 220 220 220 220;
+            }
+            description { 
+                state: "edit_mode" 0.0;
+                inherit: "to-the-right" 0.0;
+            }
+            description { 
+                state: "edit_mode_deselected" 0.0;
+                inherit: "default" 0.0;
+            }
+            description{
+                state: "highlighted" 0.0;
+                inherit: "default" 0.0;
+                color: 0 0 0 255;
+            }
+        }
+        
+        part {
+            name: "save_button";
+            type: IMAGE;
+            description { 
+                state: "default" 0.0;
+                min: 88 40;
+                max: 88 40;
+                rel1 {
+                    relative: 0.8 0.0;
+                    to: "item";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "item";
+                } 
+                image { normal: "Save.png"; }
+                visible: 0;
+            }
+            description { 
+                state: "unsaved" 0.0;
+                inherit: "default" 0.0;
+                visible: 1;
+            }
+        }
+        
+        part {
+            name: "subtext";
+            type: TEXT;
+            mouse_events: 0;
+            description {
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.1 0.15;
+                    size: 24;
+                    text: "";
+                    font: "Sans";
+                }
+                rel1 {
+                    relative: 0.0 0.67;
+                    to: "item";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "item";
+                }
+            }
+            description { 
+                state: "to-the-right" 0.0;
+                inherit: "default" 0.0;
+                rel1.to: "item";
+                rel2.to: "item";
+                color: 220 220 220 220;
+            }
+            description { 
+                state: "to-the-left" 0.0;
+                inherit: "default" 0.0;
+                rel1.to: "item";
+                rel2.to: "item";
+                color: 220 220 220 220;
+            }
+            description { 
+                state: "edit_mode" 0.0;
+                inherit: "to-the-right" 0.0;
+            }
+            description { 
+                state: "edit_mode_deselected" 0.0;
+                inherit: "default" 0.0;
+            }
+            description{
+                state: "highlighted" 0.0;
+                inherit: "default" 0.0;
+                color: 0 0 0 255;
+            }
+        }
+    }
+   
+    programs {
+        program {
+            name: "init";
+            signal: "load";
+            source: "*";
+            script { set_text(PART:"delete-flag","1"); }
+        }
+//       program {
+//          name: "slider-action";
+//          signal: "mouse,up,1";
+//          source: "invisible-slider";
+//          script {
+//             check_slider_action(1);
+//          }
+//       }
+        program {
+            name: "all_catcher";
+            signal: "*";
+            source: "invisible-slider";
+            script { emit(sig,"embryo"); }
+        }
+        program {
+            name: "drag_catcher";
+            signal: "drag,start";
+            source: "invisible-slider";
+            script {
+                new x;
+                new y;
+                set_int(drag_value,1);
+                get_mouse(x,y)
+                set_int(mouse_x,x)
+                emit("drag_start","embryo")
+            }                   
+        }
+        program {
+            name: "drag_catcher2_5";
+            signal: "hold,off";
+            source: "invisible-slider";
+            script {
+                if (get_int(drag_value) == 1) {
+                    run_program(PROGRAM:"drag_catcher2");
+                }
+            }            
+        }
+        program {
+            name: "clickable-pressed";
+            signal: "mouse,clicked,1";
+            source: "invisible-slider";
+            script {
+                if (get_int(drag_value) != 1 && get_int(edit_mode) != 1) {
+                    if (get_int(left_slided) == 1) {
+                        run_program(PROGRAM:"clickable-pressed-part-two")
+                    } else {
+                        run_program(PROGRAM:"leftward-slide")
+                    }
+                }
+                set_int(drag_value,0);
+            }
+        }
+        program {
+            name: "call-clicked";
+            signal: "mouse,clicked,1";
+            source: "call_button";
+            script {
+                run_program(PROGRAM:"clickable-pressed-part-two")
+            }
+        }
+        program {
+            name: "clickable-pressed-part-two";
+            action: STATE_SET "highlighted" 0.0;
+            transition: LINEAR 0.15;
+            target: "label";
+            target: "label-bg";
+            target: "subtext";
+            target: "invisible-slider";
+            after: "clickable-pressed-part-three";
+        }
+        program {
+            name: "clickable-pressed-part-three";
+            action: STATE_SET "default" 0.0;
+            transition: LINEAR 0.15;
+            target: "label";
+            target: "label-bg";
+            target: "subtext";
+            target: "invisible-slider";
+            after: "clickable-pressed-part-four";
+        }
+        program {
+            name: "clickable-pressed-part-four";
+            script { emit( "new_call", "label"); }
+        }
+        program {
+            name: "drag_killer";
+            signal: "drag,stop";
+            source: "invisible-slider";
+            script { set_int(drag_value,0); }
+        }
+        program {
+            name: "drag_catcher2";
+            script {
+                new x;
+                new y;
+                get_mouse(x, y);
+                if (x - get_int(mouse_x) < -30) {
+                    set_int(drag_value,0);
+                    if (get_int(edit_mode) == 1) {
+                        set_text(PART:"delete-flag","0");
+                        run_program(PROGRAM:"hide-save-button");
+                        run_program(PROGRAM:"fold-back");
+                        emit("left sweep in edit mode", "embryo");
+                    } else {
+                        if (get_int(right_slided) == 1) {
+                            run_program(PROGRAM:"fold-back");
+                            emit("from right to left", "embryo");
+                        } else {
+                            run_program(PROGRAM:"leftward-slide");
+                            emit("from left to right", "embryo");
+                        }
+                    }
+                } else if (x - get_int(mouse_x) > 30) {
+                    if (get_int(edit_mode) == 0) {
+                        if(get_int(left_slided) == 1) {
+                            run_program(PROGRAM:"fold-back");
+                            emit("from left to right", "embryo");
+                        } else {
+                            run_program(PROGRAM:"rightward-slide");
+                            emit("from right to left", "embryo");
+                        }
+                        emit("close_all", "embryo");
+                        set_int(drag_value,0);
+                    } else {
+                        run_program(PROGRAM:"rightward-slide-single");
+                        set_int(drag_value,0);
+                        set_text(PART:"delete-flag","1");
+                    }
+                } else { set_int(drag_value,0); }
+            }
+        }
+        program {
+            name: "rightward-slide-single";
+            action: STATE_SET "to-the-right" 0.0;
+            transition: LINEAR 0.32;
+            target:"subtext";
+            target: "item";
+            target:"label";
+            after: "set-right-slided";
+        }        
+        program {
+            name: "rightward-slide";
+            action: STATE_SET "to-the-right" 0.0;
+            transition: LINEAR 0.32;
+            target:"subtext";
+            target: "item";
+            target:"label";
+            after:"send_all_close";
+            after:"set-right-slided";
+        }
+        program {
+            name: "set-right-slided";
+            script { set_int(right_slided,1); }
+        }
+        program {
+            name: "set-left-slided";
+            script { set_int(left_slided,1); }
+        }
+        program {
+            name: "reset-left-right-slided";
+            script {
+                set_int(left_slided,0);
+                set_int(right_slided,0);
+            }
+        }
+        program {
+            name:"send_all_close";
+            script { emit("fold-back","list_command"); }
+        }
+        program {
+            name: "leftward-slide";
+            action: STATE_SET "to-the-left" 0.0;
+            transition: LINEAR 0.32;
+            target: "subtext";
+            target: "item";
+            target: "label";
+            after:  "send_all_close";
+            after:  "set-left-slided";
+        }
+        program {
+            name: "fold-back";
+            signal: "fold-back";
+            source: "list";
+            action: STATE_SET "default" 0.0;
+            transition: LINEAR 0.32;
+            target:"subtext";
+            target: "item";
+            target:"label";
+            after: "reset-left-right-slided";
+        }
+        program {
+            name: "msg-pressed";
+            signal: "mouse,up,1";
+            source: "msg_button";
+            action: SIGNAL_EMIT "new_msg" "msg_button";
+        }
+        program {
+            name: "save-number";
+            signal: "mouse,up,1";
+            source: "save_button";
+            action: SIGNAL_EMIT "save_number" "save_button";
+        }
+        program {
+            name: "show-save-button";
+            signal: "show_save_button";
+            source: "*";
+            action: STATE_SET "unsaved" 0.0; 
+            target: "label-bg";
+            target: "save_button";
+        }
+        program {
+            name: "hide-save-button";
+            signal: "hide_save_button";
+            source: "*";
+            action: STATE_SET "default" 0.0; 
+            target: "label-bg";
+            target: "save_button";
+        }
+        program {
+            name: "delete-log";
+            signal: "mouse,up,1";
+            source: "delete_button";
+            script {
+                set_text(PART:"delete-flag","0");
+                //run_program(PROGRAM:"to-edit-mode-deselect");
+                run_program(PROGRAM:"hide-save-button");
+                run_program(PROGRAM:"fold-back");
+            }
+        }
+        program {
+            name: "to-edit-mode";
+            signal: "to_edit_mode";
+            source: "*";
+            action: STATE_SET "edit_mode" 0.0; 
+            target: "item";
+            target: "delete_button";
+            target: "label";
+            target: "subtext";
+            target: "msg_button_label";
+            target: "msg_button";
+            after: "edit-mode-set";
+        }
+        program {
+            name: "edit-mode-set";
+            script { set_int(edit_mode,1); }
+        }
+        program {
+            name: "edit-mode-reset";
+            script { set_int(edit_mode,0); }
+        }
+        program {
+            name: "to-edit-mode-deselect";
+            signal: "to_edit_mode_deselected";
+            source: "*";
+            action: STATE_SET "edit_mode_deselected" 0.0; 
+            target: "item";
+            target: "delete_button";
+            target: "label";
+            target: "subtext";
+            after: "edit-mode-reset";
+        }
+        program {
+            name: "to-default-mode";
+            signal: "to_default_mode";
+            source: "*";
+            action: STATE_SET "default" 0.0; 
+            target: "item";
+            target: "label";
+            target: "subtext";
+            target: "delete_button";
+            target: "msg_button_label";
+            target: "msg_button";
+        }
+        program {
+            name:"unknown-trigger";
+            signal:"unknown";
+            source:"*";
+            script {
+                new value[40];
+                value[39] = get_text(PART:"label",value,40);
+                if (fnmatch("[A-Za-z]*",value) != 0) {
+                    set_state(PART:"save_button", "unsaved", 0.0);
+                }
+            }
+        }
+    }
+}
+

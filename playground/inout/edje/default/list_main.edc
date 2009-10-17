@@ -1,0 +1,193 @@
+group { 
+    name: "main";
+    min: 480 590;
+    max: 480 640;
+    
+    parts {
+        part {
+            name: "base";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 255;
+                rel1 { relative: 0.0 0.0; }
+                rel2 { relative: 1.0 1.0; }
+            }
+        }
+        
+        part {
+            name: "back-button";
+            type: IMAGE;
+            description {
+                state: "default" 0.0;
+                min: 159 69;
+                max: 159 69;
+                rel1 {
+                    relative: 0.0 0.0;
+                    offset: 1 19;
+                    to: "base";
+                }
+                rel2 {
+                    relative: 0.0 0.0;
+                    offset: 160 88;
+                    to: "base";
+                }
+                image { normal: "back.png"; }
+                visible: 1;
+            }
+            description {
+                state: "pressed" 0.0;
+                inherit:"default" 0.0;
+                image.normal: "back_pressed.png";
+            }
+        }
+        part {
+            name: "edit-done-button";
+            type: IMAGE;
+            description {
+                state: "default" 0.0;
+                min: 159 69;
+                max: 159 69;
+                rel1 {
+                    relative: 0.0 0.0;
+                    offset: 320 19;
+                    to: "base";
+                }
+                rel2 {
+                    relative: 0.0 0.0;
+                    offset: 479 88;
+                    to: "base";
+                }
+                image { normal: "sweep.png"; }
+                visible: 1;
+            }
+            description {
+                state: "edit_mode" 0.0;
+                inherit: "default" 0.0;
+                image { normal: "save.png"; }
+            }
+            description {
+                state: "edit_mode_pressed" 0.0;
+                inherit: "default" 0.0;
+                image { normal: "save_pressed.png"; }
+            }
+            description{
+                state: "ListEmpty" 0.0;
+                inherit: "default" 0.0;
+                visible:0;
+            }  
+        }
+        part {
+            name: "list-empty-text";
+            type: TEXT;
+            description {
+                state: "default" 0.0;
+                min: 152 18;
+                max: 152 18;
+                rel1 {
+                    relative: 0.0 0.0;
+                    offset: 306 29;
+                    to: "base";
+                }
+                rel2 {
+                    relative: 0.0 0.0;
+                    offset: 458 47;
+                    to: "base";
+                }
+                text {
+                    font: "Sans";
+                    text: "no call records";
+                    align: 0.1 0.5;
+                    size: 18;
+                }
+                visible: 0;
+            }
+            description {
+                state: "ListEmpty" 0.0;
+                inherit: "default" 0.0;
+                visible:1;
+            }
+        }
+        
+         part {
+            name: "debug";
+            type: RECT;
+            mouse_events: 0;
+            description {
+               state: "default" 0.0;
+               color: 255 255 0 128;
+               rel1 {
+                  relative: 0.0 0.0;
+                  offset: 0 0;
+                  to: "list";
+               }
+               rel2 {
+                  relative: 1.0 1.0;
+                  offset: -1 -1;
+                  to: "list";
+               }
+            }
+         }
+
+        part {
+            name:"list";
+            type:SWALLOW;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                rel1 { 
+                    to:"back-button";
+                    relative: 0.2 0.2;
+                   offset: 0 99;
+                }
+                rel2 {
+                    to:"base";
+                    relative: 1.0 1.0;
+                    // offset: 450 582;
+                }
+            }
+        }
+        
+        part {
+            name: "layover";
+            type: RECT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                visible:0;
+                color:0 255 0 100;
+                rel1 { relative: 0.0 0.0; }
+                rel2 { relative: 1.0 1.0; }
+            }
+        }
+    }
+    
+    programs {  
+        program { 
+            name: "back-button";
+            signal: "mouse,up,1";
+            source: "back-button";
+            action: SIGNAL_EMIT "back" "edje";
+            after: "back-button-unpressed";
+        }
+        program { 
+            name: "back-button-unpressed";
+            action: STATE_SET "default" 0.0;
+            target: "back-button";
+        }      
+        program {
+            name: "back-button-pressed";
+            signal: "mouse,down,1";
+            source: "back-button";
+            action: STATE_SET "pressed" 0.0;
+            target: "back-button";
+        }
+        program { 
+            name: "edit_pressed";
+            signal: "mouse,down,1";
+            source: "edit-done-button";
+            action: STATE_SET "edit_mode_pressed" 0.0;
+            target: "edit-done-button";
+        }
+    }
+}

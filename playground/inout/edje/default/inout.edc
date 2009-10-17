@@ -1,0 +1,19 @@
+
+collections {
+    images {
+        image: "edit.png" COMP;
+        image: "sweep.png" COMP;
+        image: "Save.png" COMP;
+        image: "save.png" COMP;
+        image: "save_pressed.png" COMP;
+        image: "Done.png" COMP;
+        image: "Delete.png" COMP;
+        image: "delete.png" COMP;
+        image: "back.png" COMP;
+        image: "back_pressed.png" COMP;
+    }
+    
+    #include "list_main.edc"
+    #include "item.edc"
+}
+
