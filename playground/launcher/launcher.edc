@@ -1,0 +1,9 @@
+
+collections {
+       
+
+    #include "launcher_main.edc"
+    #include "launcher_link.edc"
+    
+}
+

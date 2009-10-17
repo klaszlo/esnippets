@@ -1,0 +1,523 @@
+
+group { 
+    name: "main";
+    min: 480 520;
+    max: 480 590;
+  
+    parts {
+        
+        part {
+            name: "base";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 100 10 100 205;
+                rel1 { relative: 0.0 0.0; }
+                rel2 { 
+                    relative: 0.0 0.0; 
+                    offset: 480 640-64;
+                }
+            }
+        }
+
+        part {
+            name: "bg_main_top_nomenu";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 100 50 0 155;
+                rel1 { 
+                    relative: 0.0 0.05; 
+                    to: "base";
+                }
+                rel2 { 
+                    relative: 1.0 1.0; 
+                    to: "base";
+                }
+            }
+        }
+       
+        
+        part { //background of the clock and the date
+            name:  "clock-date-background";
+            type: RECT;
+            description {
+                state: "default" 0.0;
+                color: 0 0 0 5;
+                visible: 1;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "bg_main_top_nomenu";
+                }
+                rel2 {
+                    relative: 1.0 0.30;
+                    to: "bg_main_top_nomenu";
+                } 
+            }
+            description { 
+                state: "to-blink" 0.0;
+                inherit: "default" 0.0;
+            }
+        }
+        
+        part { //background of the launcher's big clock
+            name:  "clock-background";
+            type: RECT;
+            description {
+                state: "default" 0.0;
+                color: 0 0 0 0;
+                visible: 1;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "clock-date-background";
+                }
+                rel2 {
+                    relative: 1.0 0.85;
+                    to: "clock-date-background";
+                } 
+            }
+            description { 
+                state: "to-blink" 0.0;
+                inherit: "default" 0.0;
+            }
+        }
+        
+        part { // invisible slider on top of clock
+            name:  "invisible-slider";
+            type: RECT;
+            // dragable {
+            //     x: 1 1 0;
+            //     y: 0 0 0;
+            // }
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 0;
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "clock-background";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "clock-background";
+                } 
+            }
+        }
+
+        part { // *1*2:41
+            name:  "home-clock-hour-digit-1";
+            type: TEXT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                visible: 1;
+                text {
+                    font: "Sans";
+                    size: 135;
+                    text: "1";
+                }
+                rel1 {
+                    relative: 0.042 0.0;
+                    to: "clock-background";
+                }
+                rel2 {
+                    relative: 0.25 1.0;
+                    to: "clock-background";
+                } 
+            }
+            description { 
+                state: "fade-out" 0.0;
+                inherit: "default" 0.0;
+                color: 220 220 220 220;
+                rel2 {
+                    relative: 0.45 1.0;
+                } 
+            }
+        }
+        
+        part { // 1*2*:41
+            name:  "home-clock-hour-digit-0";
+            type: TEXT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    font: "Sans";
+                    size: 135;
+                    text: "2";
+                }
+                rel1 {
+                    relative: 0.26 0.0;
+                    to: "clock-background";
+                }
+                rel2 {
+                    relative: 0.46 1.0;
+                    to: "clock-background";
+                } 
+            }
+            description { 
+                state: "fade-out" 0.0;
+                inherit: "default" 0.0;
+                color: 220 220 220 220;
+                rel1 {
+                    relative: 0.45 0.0;
+                    to: "clock-background";
+                } 
+                rel2 {
+                    relative: 0.85 1.0;
+                    to: "clock-background";
+                } 
+            }
+        }
+        
+        part { //12*:*41
+            name: "home-clock-colon";
+            type: TEXT;
+            mouse_events:0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.5 0.75;
+                    font: "Sans";
+                    size: 135;
+                    text: ":";
+                }
+                rel1 {
+                    relative: 0.458 0.0;
+                    to: "clock-background";
+                }
+                rel2 {
+                    relative: 0.563 1.0;
+                    to: "clock-background";
+                } 
+            }
+            description {
+                state: "invisible" 0.0;
+                inherit: "default" 0.0;
+                visible: 0; 
+            }
+            description { 
+                state: "fade-out" 0.0;
+                inherit: "default" 0.0;
+                color: 220 220 220 220;
+                rel1 {
+                    relative: 0.416 0;
+                    to: "clock-background";
+                } 
+                rel2 {
+                    relative: 0.01 1.0;
+                    to: "clock-background";
+                } 
+            }
+        }
+        
+        part { // 12:*4*1
+            name:  "home-clock-minute-digit-1";
+            type: TEXT;
+            mouse_events:0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.5 0.5;
+                    font: "Sans";
+                    size: 135;
+                    text: "4";
+                }
+                rel1 {
+                    relative: 0.541 0.0;
+                    to: "clock-background";
+                }
+                rel2 {
+                    relative: 0.75 1.0;
+                    to: "clock-background";
+                } 
+            }
+            description { 
+                state: "fade-out" 0.0;
+                inherit: "default" 0.0;
+                color: 220 220 220 220;
+            }
+        }
+        
+        part { // 12:4*1*
+            name:  "home-clock-minute-digit-0";
+            type: TEXT;
+            mouse_events:0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.5 0.5;
+                    font: "Sans";
+                    size: 135;
+                    text: "1";
+                }
+                rel1 {
+                    relative: 0.75 0.0;
+                    to: "clock-background";
+                }
+                rel2 {
+                    relative: 0.958 1.0;
+                    to: "clock-background";
+                } 
+            }
+            description { 
+                state: "fade-out" 0.0;
+                inherit: "default" 0.0;
+                color: 220 220 220 220;
+            }
+        }
+        
+        part {
+            name:  "date-background";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 0 0 0 0;
+                rel1 {
+                    relative: 0.0 0.75;
+                    to: "clock-date-background";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "clock-date-background";
+                }
+            }
+            description { 
+                state: "unblocked" 0.0;
+                visible: 0;
+            }
+        }
+        
+        part {
+            name:  "clock-date";
+            type: TEXT;
+            mouse_events: 0;
+            description { 
+                state: "default" 0.0;
+                color: 255 255 255 255;
+                text {
+                    align: 0.5 1.0;
+                    size: 28;
+                    text: "Sunday, September 13, 2009";
+                    font: "Sans";
+                }
+                rel1 {
+                    relative: 0.0 0.0;
+                    to: "date-background";
+                }
+                rel2 {
+                    relative: 1.0 1.0;
+                    to: "date-background";
+                } 
+            }
+        }
+        
+        part {
+            name:  "link-box-background";
+            type: RECT;
+            description { 
+                state: "default" 0.0;
+                color: 100 200 0 155;
+                rel1 {
+                    relative: 0.2 0.35; 
+                    to: "bg_main_top_nomenu";
+                }
+                rel2 {
+                    relative: 0.2 0.35;
+                    offset: 300 355;
+                    to: "bg_main_top_nomenu";
+                } 
+            }
+        }
+        
+        part {
+            name:  "link-box";
+            type: SWALLOW;
+            description { 
+                state: "default" 0.0;
+                color: 100 200 0 255;
+                rel1 {
+                    relative: 0.2 0.35; 
+                    to: "bg_main_top_nomenu";
+                }
+                rel2 {
+                    relative: 0.2 0.35;
+                    offset: 300 355;
+                    to: "bg_main_top_nomenu";
+                } 
+            }
+        }
+        
+        
+        
+
+    }
+    
+    programs {
+        
+        /*
+        program {
+            name: "stop_clock_update";
+            signal: "stop_clock_update";
+            source: "*";
+            script {
+                stop_clock_timer(1);
+            }
+        }*/
+        
+        
+        program {
+            name:"embryo-test";
+            script {
+                emit("blocking-test","embryo");
+            }
+        }/*
+        program {
+            name: "alarm-switch";
+            signal: "mouse,up,1";
+            source: "alarm_switch_button";
+            script {
+                switch_alarm(1)
+            }
+        }*/
+        program { // for colon to blink
+            name: "on_home-clock-colon_blink";
+            action: ACTION_STOP;
+            target: "home-clock-colon_blink";
+            target: "home-clock-colon_hide";
+            target: "home-clock-colon_blink_timer";
+            target: "home-clock-colon_hide_timer";
+            after: "time_setting_on";
+        }
+        program { 
+            name: "time_setting_on";
+            action: SIGNAL_EMIT "time_setting_on" "*";
+            after: "home-clock-colon_blink";
+        }
+        //program { 
+        //    name: "on_home-clock-colon_blink_stop";
+        //    action: ACTION_STOP;
+        //    target: "home-clock-colon_blink";
+        //    target: "home-clock-colon_hide";
+        //    target: "home-clock-colon_blink_timer";
+        //    target: "home-clock-colon_hide_timer";
+        //    after: "time_setting_off";
+        //}
+        //program { 
+        //    name: "time_setting_off";
+        //    script {
+        //        new state_name[30];
+        //        new Float:dummy;
+        //        get_state(PART:"alarm_icon", state_name, 30, dummy);
+        //        if (!strcmp(state_name, "default")) {
+        //            emit("time_setting_off", "time")
+        //        }
+        //        else if (!strcmp(state_name, "alarm_on")) {
+        //            emit("time_setting_off", "alarm")
+        //        }
+        //    }
+        //    after: "home-clock-colon_show";
+        //}
+        program {
+            name: "home-clock-colon_show";
+            action: STATE_SET "default" 0.0;
+            target: "home-clock-colon";
+        }
+        program { 
+            name: "home-clock-colon_blink";
+            action: STATE_SET "invisible" 0.0;
+            target: "home-clock-colon";
+            after: "home-clock-colon_blink_timer";
+        }
+        program { 
+            name: "home-clock-colon_hide";
+            action: STATE_SET "default" 0.0;
+            target: "home-clock-colon";
+            transition: SINUSOIDAL 0.2;
+            after: "home-clock-colon_hide_timer";
+        }
+        program { 
+            name: "home-clock-colon_blink_timer";
+            in: 0.55 0.0;
+            after: "home-clock-colon_hide";
+        }
+        program { 
+            name: "home-clock-colon_hide_timer";
+            in: 0.2 0.0;
+            after: "home-clock-colon_blink";
+        }/*
+        program {
+            name: "top-bar-pressed";
+            signal: "mouse,up,1";
+            source: "top-bar";
+            action: SIGNAL_EMIT "quit_app" "quit";
+        }
+        program {
+            name: "switch_clock_on";
+            signal: "app_active";
+            source: "*";
+            action: STATE_SET "visible" 0.0;
+            target: "clock";
+        }
+        program {
+            name: "switch_clock_off";
+            signal: "switch_clock_off";
+            source: "*";
+            action: STATE_SET "default" 0.0;
+            target: "clock";
+        }
+        program {
+            name: "set_gsm";
+            signal: "*";
+            source: "gsm_change";
+            script {
+                new val;
+                val = atoi(sig);
+                if( val >= 80 ) {
+                    set_state(PART:"gsm", "gsm_strengh_4", 0.0);
+                } else if( val >= 60 && val < 80) {
+                    set_state(PART:"gsm", "gsm_strengh_3", 0.0);
+                } else if( val >= 40 && val < 60) {
+                    set_state(PART:"gsm", "gsm_strengh_2", 0.0);
+                } else if( val > 20 && val < 40) {
+                    set_state(PART:"gsm", "gsm_strengh_1", 0.0);
+                } else if( val > 0 && val < 20) {
+                    set_state(PART:"gsm", "gsm_strengh_0", 0.0);
+                }
+                else {
+                    set_state(PART:"gsm", "gsm_no_service", 0.0);
+                }
+            }
+        }
+        program {
+            name: "set_battery_status_charging";
+            signal: "*";
+            source: "battery_status_charging";
+            action: STATE_SET "charging" 0.0;
+            target: "battery";
+        }
+        program {
+            name: "set_battery";
+            signal: "*";
+            source: "battery_change";
+            script {
+                new val;
+                val = atoi(sig);
+                if(val >= 66) {
+                    set_state(PART:"battery", "battery_3", 0.0);
+                }
+                else if(val >= 33 && val < 66) {
+                    set_state(PART:"battery", "battery_2", 0.0);
+                }
+                else if(val < 33){
+                    set_state(PART:"battery", "battery_1", 0.0);
+                }
+                emit(sig,"embryo");
+            }
+        }*/
+    }
+}
