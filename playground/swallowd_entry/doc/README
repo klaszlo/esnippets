@@ -4,7 +4,8 @@ Normally the window should look like, what you see on sentry_good.png.
 But, when you swallow the elementary.Entry object the window collapse:
 sentry_broken.png
 
-
+enlightenment libraries are from:
+http://packages.enlightenment.org/ubuntu/pool/jaunty/binaries-20090807/main/
 
 
 
