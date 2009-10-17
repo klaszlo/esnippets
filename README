@@ -1,0 +1,12 @@
+This is a project for collecting many useful small sefl-containing programs.
+
+Each of this programs should demonstrate some specific non-intuitive 
+implementation using enlightenment libraries, like:
+* swallowing to an edje canvas
+* scrollable list
+* scrollable list, where each line is a smart object, allowing 
+  more nice feature to be implemented, like horizontal swiping, etc.
+  
+
+
+
