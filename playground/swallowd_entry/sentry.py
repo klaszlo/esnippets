@@ -39,4 +39,5 @@ win.resize(480, 640)
 win.show()
 elementary.run()
 
+elementary.shutdown()
 
