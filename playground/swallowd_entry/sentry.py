@@ -3,10 +3,17 @@ import elementary
 import edje
 import evas
 
+def destroy(obj, event, data):
+    print "DEBUG: window destroy callback called!"
+    print "DEBUG: data:"
+    print data
+    elementary.exit()
+
 elementary.init()
 
 win = elementary.Window("inject", elementary.ELM_WIN_BASIC)
-win.autodel_set(True)
+win.destroy = (destroy, ("test", "test1"))
+
 ly = elementary.Layout(win)
 ly.file_set("people.edj", "CreateContact")
 win.resize_object_add(ly)

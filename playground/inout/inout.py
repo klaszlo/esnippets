@@ -2,11 +2,19 @@ import elementary
 import edje
 import evas
 
+def destroy(obj, event, data):
+    print "DEBUG: window destroy callback called!"
+    print "DEBUG: data:"
+    print data
+    elementary.exit()
+
+
+
 elementary.init()
 
 win = elementary.Window("List with scroller", elementary.ELM_WIN_BASIC)
 win.title_set("Scroller list")
-win.autodel_set(True)
+win.destroy = (destroy, ("test", "test1"))
 
 ly = elementary.Layout(win)
 ly.file_set("inout.edj", "main")
@@ -50,3 +58,5 @@ win.show()
 
 elementary.run()
 elementary.shutdown()
+
+
