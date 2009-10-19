@@ -140,6 +140,7 @@ group {
             name: "entry_bg";
             type: RECT;
             description { 
+                color: 100 200 100 100;
                 state: "default" 0.0;
                 rel1 { 
                     to: "base";
