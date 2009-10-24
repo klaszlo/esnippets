@@ -23,6 +23,7 @@ select(index, "meag")
 select(index, "mea_")
 select(index, "\xE9")
 select(index, "\x9C")
+select(index, "gl\xF6")
 t2 = time.time()
 
 print 'Benchmark result is %0.3f ms' % ((t2-t1)*1000.0)
