@@ -1,0 +1,141 @@
+// Main dictionary .edc file
+
+collections {
+    
+    group { 
+        name: "Intone";
+        min: 480 590;
+        parts {
+            part {
+                name: "base";
+                type: RECT;
+                description { 
+                    state: "default" 0.0;
+                    color: 0 0 0 255;
+                    rel1 { relative: 0.0 0.0; }   
+                    rel2 { relative: 1.0 1.0; }
+                }
+            }
+            
+            
+            
+            part {
+                name: "vbox0_bg";
+                type: RECT;
+                description { 
+                    color: 100 0 0 255;
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "base";
+                        relative: 0.0 0.0;
+                    }
+                    rel2 {
+                        to: "base";
+                        relative: 1.0 0.1;
+                    }
+                }
+            }
+            part {
+                name: "vbox0_swallow";
+                type: SWALLOW;
+                description { 
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "vbox0_bg";
+                        relative: 0.0 0.0;
+                    }
+                    rel2 {
+                        to: "vbox0_bg";
+                        relative: 1.0 1.0;
+                    }
+                }
+            }
+            
+            part {
+                name: "vbox1_bg";
+                type: RECT;
+                description { 
+                    color: 255 255 255 255;
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "base";
+                        relative: 0.0 0.1;
+                    }
+                    rel2 {
+                        to: "base";
+                        relative: 1.0 0.8;
+                    }
+                }
+            }
+            part {
+                name: "vbox1_swallow";
+                type: SWALLOW;
+                description { 
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "vbox1_bg";
+                        relative: 0.0 0.0;
+                    }
+                    rel2 {
+                        to: "vbox1_bg";
+                        relative: 1.0 1.0;
+                    }
+                }
+            }
+            part {
+                name: "vbox1b_swallow";
+                type: SWALLOW;
+                description { 
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "vbox1_bg";
+                        relative: 0.0 0.0;
+                    }
+                    rel2 {
+                        to: "vbox1_bg";
+                        relative: 1.0 1.0;
+                    }
+                }
+            }
+            
+            
+            part {
+                name: "vbox2_bg";
+                type: RECT;
+                description { 
+                    color: 100 100 0 255;
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "base";
+                        relative: 0.0 0.8;
+                    }
+                    rel2 {
+                        to: "base";
+                        relative: 1.0 1.0;
+                    }
+                }
+            }
+            part {
+                name: "vbox2_swallow";
+                type: SWALLOW;
+                description { 
+                    state: "default" 0.0;
+                    rel1 { 
+                        to: "vbox2_bg";
+                        relative: 0.0 0.0;
+                    }
+                    rel2 {
+                        to: "vbox2_bg";
+                        relative: 1.0 1.0;
+                    }
+                }
+            }
+            
+        }
+        
+        //programs {  
+        //}
+    }
+
+}
+
